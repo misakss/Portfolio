@@ -1,0 +1,25 @@
+function pixels = Lvvtilde(inpic, shape)
+if(nargin<2)
+        shape='same';
+end
+dxmask=[-1 0 1]/2;
+dxmask=wextend(2,'zpd',dxmask,2);
+dxmask=dxmask(:,2:6);
+dymask=[-1 0 1]'/2;
+dymask=wextend(2,'zpd',dymask,2);
+dymask=dymask(2:6,:);
+dxxmask=[1 -2 1];
+dxxmask=wextend(2,'zpd',dxxmask,2);
+dxxmask=dxxmask(:,2:6);
+dyymask=[1 -2 1]';
+dyymask=wextend(2,'zpd',dyymask,2);
+dyymask=dyymask(2:6,:);
+
+dxymask=filter2(dxmask,dymask,shape);
+
+Lxx=filter2(fliplr(dxxmask),inpic,shape);
+Lyy=filter2(dyymask,inpic,shape);
+Lx=filter2(fliplr(dxmask,inpic,shape);
+Ly=filter2(dymask,inpic,shape);
+Lxy=filter2(dxymask,inpic,shape);
+pixels=Lx.^2.*Lxx+2*Lx.*Ly.*Lxy+Ly.^2.*Lyy;
