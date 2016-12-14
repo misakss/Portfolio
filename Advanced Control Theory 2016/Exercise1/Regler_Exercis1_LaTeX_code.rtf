@@ -1,0 +1,264 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1053{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang29\f0\fs22\par
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\par
+% Structured General Purpose Assignment\par
+% LaTeX Template\par
+%\par
+% This template has been downloaded from:\par
+% {\field{\*\fldinst{HYPERLINK "http://www.latextemplates.com"}}{\fldrslt{\ul\cf1 http://www.latextemplates.com}}}\f0\fs22\par
+%\par
+% Original author:\par
+% Ted Pavlic ({\field{\*\fldinst{HYPERLINK "http://www.tedpavlic.com"}}{\fldrslt{\ul\cf1 http://www.tedpavlic.com}}}\f0\fs22 )\par
+%\par
+% Note:\par
+% The \\lipsum[#] commands throughout this template generate dummy text\par
+% to fill the template out. These commands should all be removed when\par
+% writing assignment content.\par
+%\par
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\par
+\par
+%\tab PACKAGES AND OTHER DOCUMENT CONFIGURATIONS\par
+\par
+\\documentclass[a4paper]\{article\}\par
+\\usepackage[utf8]\{inputenc\}\par
+\\usepackage[T1]\{fontenc\}\par
+\\usepackage[english]\{babel\}\par
+\\usepackage\{fancyhdr\} % Required for custom headers\par
+\\usepackage\{lastpage\} % Required to determine the last page for the footer\par
+\\usepackage\{extramarks\} % Required for headers and footers\par
+\\usepackage\{graphicx\} % Required to insert images\par
+\\usepackage\{amsmath,amssymb,amsthm,amsfonts\}\par
+\\usepackage\{cleveref\}\par
+\par
+% Margins\par
+\\topmargin=-0.45in\par
+\\evensidemargin=0in\par
+\\oddsidemargin=0in\par
+\\textwidth=6.3in\par
+\\textheight=9.6in\par
+\\headsep=0.25in\par
+\par
+\\linespread\{1.1\} % Line spacing\par
+\par
+% Set up the header and footer\par
+\\pagestyle\{fancy\}\par
+\\lhead\{\\hmwkAuthorName\} % Top left header\par
+\\chead\{\\hmwkTitle\} % Top center header\par
+\\rhead\{\\hmwkClass\} % Top right header\par
+\\lfoot\{\} % Bottom left footer\par
+\\cfoot\{\} % Bottom center footer\par
+\\rfoot\{Page\\ \\thepage\\ of\\ \\pageref\{LastPage\}\} % Bottom right footer\par
+\par
+\\renewcommand\\headrulewidth\{0.4pt\} % Size of the header rule\par
+\\renewcommand\\footrulewidth\{0.4pt\} % Size of the footer rule\par
+\par
+\\setlength\\parindent\{0pt\} % Removes all indentation from paragraphs\par
+\par
+\\setcounter\{secnumdepth\}\{0\} % Removes default section numbers\par
+\par
+%\tab NAME AND CLASS SECTION\par
+\par
+\\newcommand\{\\hmwkTitle\}\{Classical Loop-Shaping\} % Assignment title\par
+\\newcommand\{\\hmwkClass\}\{EL2520\} % Course/class\par
+\\newcommand\{\\hmwkClassName\}\{Control Theory and Practice\} % Course/class\par
+\\newcommand\{\\hmwkAuthorName\}\{Isaksson, Oscarsson\} % Your name\par
+\par
+%\tab TITLE PAGE\par
+\par
+\\title\{\par
+\tab\\vspace\{1.5in\}\par
+\tab\\textmd\{\\textbf\{\\hmwkClass\\ -- \\hmwkClassName\}\}\\\\\par
+\tab\\vspace\{0.2in\}\par
+\tab\\textmd\{\\textbf\{\\hmwkTitle\}\}\\\\\par
+\tab\\normalsize\\vspace\{0.1in\}\\small\{\\today\}\\\\\par
+\tab\\vspace\{2in\}\par
+\}\par
+\\author\{\par
+\tab Martin Isaksson\\\\\par
+\tab misakss@kth.se\\\\\par
+\tab 920622-3373\par
+\tab\\and\par
+\tab Oscar Oscarsson\\\\\par
+\tab y@kth.se\\\\\par
+\tab YYMMDD-NNNN\par
+\}\par
+\\date\{\}\par
+\par
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\par
+\par
+\\begin\{document\}\par
+\par
+\\maketitle\par
+\par
+\\vfill\par
+\\begin\{abstract\}\par
+\tab In this report, we consider the classical loop-shaping procedure for control design \\ldots\par
+\\end\{abstract\}\par
+\par
+\\newpage\par
+\par
+\par
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\par
+\par
+\\section\{Basics\}\par
+A system is modeled by the transfer function (given in \\cite\{exercise\})\par
+\\begin\{equation\}\par
+\tab G(s) = \\frac\{3(-s+1)\}\{(5s+1)(10s+1)\}.\par
+\tab\\label\{eq:system\}\par
+\\end\{equation\}\par
+\par
+We will design a lead-lag compensator $F$ such that the closed loop system in \\cref\{fig:block_diagram\} fulfills the following specification:\par
+\\begin\{itemize\}\\setlength\{\\itemsep\}\{-2pt\}\par
+\tab\\item Crossover frequency $\\omega_c = 0.4$ rad/s.\par
+\tab\\item Phase margin $\\phi_m = 30^\\circ$.\par
+\tab\\item No stationary error for a step response.\par
+\\end\{itemize\}\par
+\par
+\\begin\{figure\}[h!]\par
+\tab\\begin\{center\}\par
+\tab\tab\\includegraphics[width=0.5\\textwidth]\{tex/figs/ext/loopshape_system\}\par
+\tab\\end\{center\}\par
+\tab\\caption\{Closed loop block diagram, where $F$--controller, $G$--system, $r$--reference signal, $u$--control signal, $d$--disturbance signal, $y$--output signal, $n$--measurement noise.\}\par
+\tab\\label\{fig:block_diagram\}\par
+\\end\{figure\}\par
+\par
+We follow the procedure from \\cite\{basic_book\} to determine the parameters $K, \\beta, \\tau_D, \\tau_i, \\gamma$ in the lead-lag compensator\par
+\\begin\{equation\}\par
+\tab F(s) = K \\frac\{\\tau_D s + 1\}\{\\beta \\tau_D s + 1\} \\frac\{\\tau_I s + 1\}\{\\tau_I s + \\gamma\}.\par
+\tab\\label\{eq:lead_lag\}\par
+\\end\{equation\}\par
+The system's phase, $\\arg(G(i\\omega_c)) = -160^\\circ$, is determined from the Bode diagram in \\cref\{fig:bode_diagram\}.\par
+\par
+\\begin\{figure\}[h!]\par
+\tab\\begin\{center\}\par
+\tab\tab\\includegraphics[width=0.7\\textwidth]\{G_margin\}\par
+\tab\\end\{center\}\par
+\tab\\caption\{Bode diagram for system $G(s)$ in \\eqref\{eq:system\}.\}\par
+\tab\\label\{fig:bode_diagram\}\par
+\\end\{figure\}\par
+\par
+Thus, the necessary phase shift is\par
+\\[\par
+\tab 30^\\circ - (-160^\\circ - -180^\\circ) + 8^\\circ = 18^\\circ,\par
+\\]\par
+where an extra $8^\\circ$ has been added to account for the lag-part. The first parameter can now be selected from \\cite[fig. 5.13]\{basic_book\} as $\\beta = 0.51$.\par
+\par
+\\ldots\par
+\par
+The final controller is given by \\cref\{eq:lead_lag\} with the parameters in \\cref\{tb:lead_lag_parameters\}.\par
+\\begin\{table\}\par
+\\begin\{center\}\par
+\tab\\begin\{tabular\}\{|c|c|c|c|c|\}\par
+\tab\tab\\hline\par
+\tab\tab $K$ & $\\beta$ & $\\tau_D$ & $\\tau_i$ & $\\gamma$\\\\\par
+\tab\tab\\hline\par
+\tab\tab 2.0377 & 0.51 & 3.5007 & 25 & 0\\\\\par
+\tab\tab\\hline\par
+\tab\\end\{tabular\}\par
+\\end\{center\}\par
+\\caption\{Parameters for the lead-lag compensator.\}\par
+\\label\{tb:lead_lag_parameters\}\par
+\\end\{table\}\par
+\par
+\\ldots\par
+\par
+The rise time and overshoot is determined form the step response in \\cref\{fig:step_response\}, and given in \\cref\{tb:response\}.\par
+\par
+\\begin\{figure\}[h!]\par
+\tab\\begin\{center\}\par
+\tab\tab\\includegraphics[width=0.7\\textwidth]\{Step_Gc_1\}\par
+\tab\\end\{center\}\par
+\tab\\caption\{Step response for the closed loop system in \\cref\{fig:block_diagram\}, with the lead-lag compensator.\}\par
+\tab\\label\{fig:step_response\}\par
+\\end\{figure\}\par
+\par
+\\begin\{table\}[h!]\par
+\\begin\{center\}\par
+\tab\\begin\{tabular\}\{|c|c|c|c|\}\par
+\tab\tab\\hline\par
+\tab\tab $\\omega_B$ [rad/s] & $M_T$ [dB] & $T_r$ [s] & $M$ [\\%] \\\\\par
+\tab\tab\\hline\par
+\tab\tab 0.7811 & 5.8771 & 2.3921 & 37.1793\\\\\par
+\tab\tab\\hline\par
+\tab\\end\{tabular\}\par
+\\end\{center\}\par
+\\caption\{Closed loop system characteristics.\}\par
+\\label\{tb:response\}\par
+\\end\{table\}\par
+\par
+\\begin\{table\}[h!]\par
+\\begin\{center\}\par
+\tab\\begin\{tabular\}\{|c|c|c|c|c|\}\par
+\tab\tab\\hline\par
+\tab\tab $K$ & $\\beta$ & $\\tau_D$ & $\\tau_i$ & $\\gamma$\\\\\par
+\tab\tab\\hline\par
+\tab\tab 1.3684 & 0.23 & 5.2129 & 25 & 0\\\\\par
+\tab\tab\\hline\par
+\tab\\end\{tabular\}\par
+\\end\{center\}\par
+\\caption\{Parameters for the lead-lag compensator.\}\par
+\\label\{tb:lead_lag_parameters\}\par
+\\end\{table\}\par
+\par
+\\begin\{figure\}[h!]\par
+\tab\\begin\{center\}\par
+\tab\tab\\includegraphics[width=0.7\\textwidth]\{Step_Gc_2\}\par
+\tab\\end\{center\}\par
+\tab\\caption\{Step response for the closed loop system in \\cref\{fig:block_diagram\}, with the lead-lag compensator.\}\par
+\tab\\label\{fig:step_response\}\par
+\\end\{figure\}\par
+\par
+\\begin\{table\}[h!]\par
+\\begin\{center\}\par
+\tab\\begin\{tabular\}\{|c|c|c|c|\}\par
+\tab\tab\\hline\par
+\tab\tab $\\omega_B$ [rad/s] & $M_T$ [dB] & $T_r$ [s] & $M$ [\\%] \\\\\par
+\tab\tab\\hline\par
+\tab\tab 0.9341 & 1.1032 & 2.4054 & 10.3174\\\\\par
+\tab\tab\\hline\par
+\tab\\end\{tabular\}\par
+\\end\{center\}\par
+\\caption\{Closed loop system characteristics.\}\par
+\\label\{tb:response\}\par
+\\end\{table\}\par
+\par
+\\ldots\par
+\par
+\\section\{Disturbance attenuation\}\par
+\\ldots\par
+\par
+\\section\{Conclusions\}\par
+\\ldots\par
+\par
+\\begin\{thebibliography\}\{9\}\par
+\par
+\\bibitem\{exercise\}\par
+EL2520 Control Theory and Practice Advanced Course, \\emph\{Computer Exercise: Classical Loop-Shaping\}, 2014.\par
+\par
+\\bibitem\{basic_book\}\par
+T. Glad and L. Ljung, \\emph\{Reglerteknik, Grundl\'e4ggande teori\}, Studentlitteratur, 2006.\par
+\par
+\\end\{thebibliography\}\par
+\par
+\par
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\par
+\par
+\\newpage\par
+\\section\{Some reminders\}\par
+\\begin\{itemize\}\par
+\tab\\item Write clear and concise, but comprehensible. No novels!\par
+\tab\\item The report should be self-contained, don't assume the reader knows the lab instructions.\par
+\tab\\item However, don't repeat material from the course book, instead, use references.\par
+\tab\\item Make sure that all results and figures are reproducible.\par
+\tab\\item Start with a \\emph\{short\} summary of the results and the contents of the report.\par
+\tab\\item Motivate all the choices you have done.\par
+\tab\\item Show results in tables and figures that are easy to compare.\par
+\tab\\item Introduce figures in the text where it is needed, and remember to describe what the figure shows, what the axes corresponds to and what the results are.\par
+\tab\\item Be specific in your writing, and avoid vague expressions such as ``some'' and ``not so good''.\par
+\tab\\item Check grammar your and speling.\par
+\\end\{itemize\}\par
+\par
+\\end\{document\}\par
+}
+ 
