@@ -1,0 +1,84 @@
+//
+// = FILENAME
+//    Rectangle.cc
+//    
+// = AUTHOR(S)
+//    Martin Isaksson
+//
+/*----------------------------------------------------------------------*/
+
+#include "Rectangle.hh"
+
+#include <iostream>
+#include <cmath>
+
+Rectangle::Rectangle(double m_Xr,double m_Yr,double m_Width,double m_Height,double m_Angle)
+{
+  // Use the inputs that we get from MyWorld, readObstacle
+  xr=m_Xr;
+  yr=m_Yr;
+  w=m_Width;
+  h=m_Height;
+  a=m_Angle;
+}
+
+Rectangle::~Rectangle()
+{}
+
+bool
+Rectangle::collidesWith(double x,double y)
+{
+  //The new corners in x-coordinates
+  x1=xr-(w/2)*cos(a)-(h/2)*sin(a);
+  x2=xr+(w/2)*cos(a)-(h/2)*sin(a);
+  x3=xr+(w/2)*cos(a)+(h/2)*sin(a);
+  x4=xr-(w/2)*cos(a)+(h/2)*sin(a);
+  //The new corners in y-coordinates
+  y1=yr+(h/2)*cos(a)-(w/2)*sin(a);
+  y2=yr+(h/2)*cos(a)+(w/2)*sin(a);
+  y3=yr-(h/2)*cos(a)+(w/2)*sin(a);
+  y4=yr-(h/2)*cos(a)-(w/2)*sin(a);
+  
+  //Check if x,y) is inside rectangle, if it is, return true
+  a1=sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+  a2=sqrt((x2-x3)*(x2-x3)+(y2-y3)*(y2-y3));
+  a3=sqrt((x3-x4)*(x3-x4)+(y3-y4)*(y3-y4));
+  a4=sqrt((x4-x1)*(x4-x1)+(y4-y1)*(y4-y1));
+  
+  b1=sqrt((x1-x)*(x1-x)+(y1-y)*(y1-y));
+  b2=sqrt((x2-x)*(x2-x)+(y2-y)*(y2-y));
+  b3=sqrt((x3-x)*(x3-x)+(y3-y)*(y3-y));
+  b4=sqrt((x4-x)*(x4-x)+(y4-y)*(y4-y));
+
+  u1=(a1+b1+b2)/2;
+  u2=(a2+b2+b3)/2;
+  u3=(a3+b3+b4)/2;
+  u4=(a4+b4+b1)/2;
+  
+  A=a1*a2;
+  A1=sqrt(u1*(u1-a1)*(u1-b1)*(u1-b2));
+  A2=sqrt(u2*(u2-a2)*(u2-b2)*(u2-b3));
+  A3=sqrt(u3*(u3-a3)*(u3-b3)*(u3-b4));
+  A4=sqrt(u4*(u4-a4)*(u4-b4)*(u4-b1));
+  
+  return(!(A1>A/2 || A2>A/2 || A3>A/2 || A4>A/2));
+}
+
+void 
+Rectangle::writeMatlabDisplayCode(std::ostream &fs)
+{
+  fs << "plot([(" 
+     // First the new x-coordinates of the corners
+     << xr << " - (" << w/2 << ")*cos(" << a << ")-(" << h/2 << ")*sin(" << a << ")),("
+     << xr << " + (" << w/2 << ")*cos(" << a << ")-(" << h/2 << ")*sin(" << a << ")),("
+     << xr << " + (" << w/2 << ")*cos(" << a << ")+(" << h/2 << ")*sin(" << a << ")),("
+     << xr << " - (" << w/2 << ")*cos(" << a << ")+(" << h/2 << ")*sin(" << a << ")),("
+     << xr << " - (" << w/2 << ")*cos(" << a << ")-(" << h/2 << ")*sin(" << a << "))],[("
+    // Then the new y-coordinates of the corners
+     << yr << " +( " << h/2 << ")*cos(" << a << ")-("  << w/2 << ")*sin(" << a << ")),("
+     << yr << " +( " << h/2 << ")*cos(" << a << ")+("  << w/2 << ")*sin(" << a << ")),("
+     << yr << " -( " << h/2 << ")*cos(" << a << ")+("  << w/2 << ")*sin(" << a << ")),("
+     << yr << " -( " << h/2 << ")*cos(" << a << ")-("  << w/2 << ")*sin(" << a << ")),("
+     << yr << " +( " << h/2 << ")*cos(" << a << ")-("  << w/2 << ")*sin(" << a << "))])"
+     << std::endl;
+}
